@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}grid{% endblock %}
+{% block containercontent %}
+
+	<div class='centerContainer'>
+
+		<!-- <image src={{ url_for('static', filename='img/grid.png') }}> </image> -->
+		<form class="example" method="post" action="" 
+         style="margin:auto;max-width:600px">
+            <input type="text" placeholder="Search by tweet" name="book">
+            <button type="submit">Submit<i class="fa fa-search"></i>
+            </button>
+        </form>
+        <div class='pfpBox'>
+            {% for pfp_url in pfp_urls %}
+                <tr>
+                    <td> <image class='pfp' src={{ pfp_url }}></image></td>
+                    </br>
+                </tr>
+            {% endfor %}
+        </div>
+	</div>
+
+{% endblock %}
+

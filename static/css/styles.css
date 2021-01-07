@@ -1,0 +1,23 @@
+.tableContainer {
+    display:table;
+}
+.tableRow {
+    display:table-row;
+}
+.centerContainer {
+    
+    display:flex; 
+    justify-content:center;
+    align-items:center;
+    height:calc(100% - 48px);
+}
+
+.pfpBox {
+    display:flex;
+    flex-wrap:wrap;
+    width:500px;
+    /* height:500px; */
+}
+.pfp {
+    
+}

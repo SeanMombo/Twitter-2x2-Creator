@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>twauth-web sample app {% block title %}{% endblock %}</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+	<div class="container">
+		<!-- <h1>twauth-web</h1> -->
+		{% block containercontent %}{% endblock %}
+		
+		
+	</div>
+</body>
+
+</html>

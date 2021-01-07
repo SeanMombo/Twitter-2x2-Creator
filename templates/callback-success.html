@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}success{% endblock %}
+{% block containercontent %}
+
+	<div class='centerContainer'>
+
+		<!-- <image src={{ url_for('static', filename='img/grid.png') }}> </image> -->
+		<form class="example" method="post" action="" 
+         style="margin:auto;max-width:600px">
+            <input type="text" placeholder="Search by author or 
+             book, or all to see all the data" name="book">
+            <button type="submit"><i class="fa fa-search"></i>
+            </button>
+        </form>
+        <p></p>
+        <center>
+        {% for item in data %}
+            <tr>
+                <td> {{item[0]}} by {{item[1]}}</td>
+                </br>
+            </tr>
+        {% endfor %}
+        </center>
+	</div>
+
+{% endblock %}
+
