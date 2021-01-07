@@ -6,16 +6,19 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-	{% block headcontent %}{% endblock %}
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $( function() {
+      $( "#draggable" ).draggable();
+    } );
+    </script>
 </head>
 
 <body>
 	<div class="container">
-		<!-- <h1>twauth-web</h1> -->
-		{% block containercontent %}{% endblock %}
-		
-		
-
+        
+        <image src='../static/img/grid.png' id="draggable"></image>
 	</div>
 </body>
 

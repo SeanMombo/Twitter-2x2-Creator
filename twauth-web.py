@@ -81,8 +81,8 @@ def grid():
         screen_name = 'captain_mrs'
         q_str = 'to:' + screen_name + ' conversation_id:' + tweet_id
 
-        _max_queries = 5
-        n = 500
+        _max_queries = 10
+        n = 3000
         ct = 1
 
         tweets = tweet_batch = api.search(q=q_str, since_id=tweet_id, count=n, result_type='mixed', include_entities=True)
@@ -116,14 +116,14 @@ def grid():
 
         print(screen_names)
 
-        # with open('./static/names.txt') as f:
-        #     names = f.read().splitlines()
+        with open('./static/names.txt') as f:
+            names = f.read().splitlines()
 
-        # count = 0;
-        # for n in names:
-        #     if n in screen_names:
-        #         count+=1
-
+        count = 0;
+        for n in names:
+            if n in screen_names:
+                count+=1
+        print(count, len(names))
         return render_template('grid.html', pfp_urls=pfp_urls, access_token_url=access_token_url) 
 
     return render_template('grid.html', data=[], access_token_url=access_token_url)

@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 {% block title %}grid{% endblock %}
+
+{% block headcontent %}
+    <script type=text/javascript src="{{
+        url_for('static', filename='jquery-3.5.1.min.js') }}"></script>
+    <script type=text/javascript src="{{
+        url_for('static', filename='jquery-ui.js') }}"></script>
+
+    <script>
+        $(function() {
+            $(".pfp").draggable();
+        });
+    </script>
+{% endblock %}
+
 {% block containercontent %}
 
 	<div class='centerContainer'>
@@ -13,13 +27,12 @@
         </form>
         <div class='pfpBox'>
             {% for pfp_url in pfp_urls %}
-                <tr>
-                    <td> <image class='pfp' src={{ pfp_url }}></image></td>
-                    </br>
-                </tr>
+                <div class='pfp'>
+                    <image id="draggable" src={{ pfp_url }}></image>
+                </div>
             {% endfor %}
         </div>
-	</div>
+    </div>
 
 {% endblock %}
 
