@@ -4,8 +4,12 @@
 .tableRow {
     display:table-row;
 }
+
+.bodyContainer{
+    margin:64px;
+}
+
 .centerContainer {
-    
     display:flex; 
     justify-content:center;
     align-items:center;
@@ -15,9 +19,58 @@
 .pfpBox {
     display:flex;
     flex-wrap:wrap;
-    width:500px;
+    /* width:500px; */
     /* height:500px; */
 }
 .pfp {
+    
+}
+
+.mainContentSection{
+    display:inline;
+
+}
+
+.userSection{
+
+}
+.gameContainer{
+    
+}
+
+
+.gridSection{
+    position:relative;
+    width:100%;
+    max-width:800px;
+}
+.gridSection::after{
+    content:'';
+    display:block;
+    padding-top:100%;
+}
+.gridContainer{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding:32px;
+    height: 100%;
+    width: 100%;
+}
+
+.gridImage{
+    width:64px; 
+    height:64px;
+    -webkit-transform:  translate(-50%, -50%);
+    -moz-transform:     translate(-50%, -50%);
+    -ms-transform:      translate(-50%, -50%);
+    -o-transform:       translate(-50%, -50%);
+    transform:          translate(-50%, -50%);
+}
+
+.dragg{
+    width:0;
+    height:0;
+    z-index: 999;
     
 }

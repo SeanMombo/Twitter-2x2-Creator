@@ -7,32 +7,73 @@
     <script type=text/javascript src="{{
         url_for('static', filename='jquery-ui.js') }}"></script>
 
+    <script type=text/javascript src="{{
+            url_for('static', filename='html2canvas.js') }}"></script>
     <script>
         $(function() {
-            $(".pfp").draggable();
+            // $(".pfp").draggable();
+            $( "#pfpBox div" ).draggable({ 
+                stack: "#pfpBox div",
+                start: function() {
+                    element = $(this);
+                },
+                drag: function() {
+                    ImmagineDrag.css({
+                        'top': '0',
+                        'left': '0'
+                    });
+                },
+            
+            });
         });
+
     </script>
 {% endblock %}
 
 {% block containercontent %}
-
-	<div class='centerContainer'>
-
-		<!-- <image src={{ url_for('static', filename='img/grid.png') }}> </image> -->
-		<form class="example" method="post" action="" 
-         style="margin:auto;max-width:600px">
+    <header class="header">
+        <form class="example" method="post" action="" 
+            style="margin:auto;max-width:600px">
             <input type="text" placeholder="Search by tweet" name="book">
             <button type="submit">Submit<i class="fa fa-search"></i>
             </button>
         </form>
-        <div class='pfpBox'>
-            {% for pfp_url in pfp_urls %}
-                <div class='pfp'>
-                    <image id="draggable" src={{ pfp_url }}></image>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+        <input type='button' id='but_screenshot' value='Take screenshot' onclick='screenshot();'>
+    </header>
 
+   
+        <div class="row">
+
+            <div class="col-md-4 userSection">
+                <div id='pfpBox' class='pfpBox'>
+                    {% for pfp_url in pfp_urls %}
+                        <div class='pfp'>
+                            <image id="draggable" src={{ pfp_url }}></image>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="gridSection">
+                    <image src={{ url_for('static', filename='img/grid.png') }} class='gridImage'> </image>
+                </div>
+            </div>
+        </div>
+        
+
+        
+
+    <!-- <div id='centerContainer' class='centerContainer'></div>
+    </div> -->
+
+    <!-- Script -->
+    <script type='text/javascript'>
+        function screenshot(){
+            html2canvas(document.getElementById('centerContainer'), {useCORS: true}).then(function(canvas) {
+                document.body.appendChild(canvas);
+            });
+        }
+    </script>
 {% endblock %}
 

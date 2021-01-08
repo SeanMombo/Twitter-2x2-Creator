@@ -3,22 +3,72 @@
 
 <head>
 	<title>twauth-web sample app {% block title %}{% endblock %}</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../static/css/styles.css">
+  
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="../static/jquery-3.5.1.min.js"></script>
+    <script src="../static/jquery-ui.js"></script>
     <script>
-    $( function() {
-      $( "#draggable" ).draggable();
-    } );
+
+        $(function() {
+            $( ".dragg" ).draggable({ 
+                containment: $("#gridContainer"),  
+
+                stop:function(){
+                    const parent = $('#gridSquare');
+                    var x = 100 * (parseFloat($(this).position().left) / parseFloat(parent.width())) + "%";
+                    var y = 100 * (parseFloat($(this).position().top) / parseFloat(parent.height())) + "%";
+                    $(this).css("left", x);
+                    $(this).css("top", y);
+                },
+        });
+      });
+
+      $( window ).resize(function() {
+        const parent=$('#gridSquare');
+        let scale = parseFloat(parent.width()) / 800;
+        let profileDimensions = scale * 64;
+        let gridOffset = scale * 32;
+
+        $( ".gridImage" ).css({
+            "width": profileDimensions,
+            "height": profileDimensions,
+        })
+        $( "#gridContainer" ).css({
+            "padding": gridOffset,
+        })
+      });
     </script>
 </head>
 
 <body>
 	<div class="container">
         
-        <image src='../static/img/grid.png' id="draggable"></image>
+    <div class='gameContainer'>
+
+        <div id="gridSquare" class='gridSection' style="position:relative; background-size:cover; background-image:url('../static/img/grid.png');">
+          <div id='gridContainer' class='gridContainer'></div>
+          <!-- <image class='gridImage' src='../static/img/grid.png' "></image> -->
+          
+          <div id=1 style="display:block; top:0; left:0; position:absolute;" class="dragg">
+            <image class='gridImage' src='../static/img/bombette.png' "></image>
+          </div>
+  
+          <div id=2 style="display:block; top:0; left:0; position:absolute;" class="dragg">
+            <image class='gridImage' src='../static/img/bombette.png' "></image>
+          </div>
+  
+          <div id=3 style="display:block; top:0; left:0; position:absolute;" class="dragg">
+            <image class='gridImage' src='../static/img/bombette.png' "></image>
+          </div>
+
+      </div>
+
+      
+    </div>
+
 	</div>
 </body>
 
