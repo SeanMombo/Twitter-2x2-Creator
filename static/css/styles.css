@@ -20,27 +20,20 @@
     display:flex;
     flex-wrap:wrap;
     /* width:500px; */
-    /* height:500px; */
+    height:64px;
 }
-.pfp {
-    
-}
+
 
 .mainContentSection{
     display:inline;
-
 }
 
-.userSection{
-
-}
-.gameContainer{
-    
-}
 
 
 .gridSection{
-    position:relative; background-size:cover; background-image: url('../img/grid.png');
+    position:relative; 
+    background-size:cover; 
+    background-image: url('../img/grid.png');
     width:100%;
     max-width:800px;
 }
@@ -68,7 +61,14 @@
     transform:          translate(-50%, -50%);
 }
 
-.dragg{
+.dragList{
+    position:relative;
+    width:64px;
+    height:64px;
+    z-index: 999; 
+}
+
+.dragBox{
     position:absolute;
     width:0;
     height:0;
