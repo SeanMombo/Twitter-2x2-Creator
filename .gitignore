@@ -44,7 +44,7 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-./static/test.js
+static/test.js
 
 
 # Unit test / coverage reports
