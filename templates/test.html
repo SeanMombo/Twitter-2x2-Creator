@@ -13,12 +13,11 @@
     <script>
         function createDraggables() {
           $( ".dragList" ).draggable({ 
-                // containment: $("#gridContainer"),  
-
+                // cursorAt: { top: 0, left: 0 },
                 start:function(event, ui){
                   $(this).css("position", 'absolute');
-                  $(this).css("width", '0');
-                  $(this).css("height", '0');
+                  // $(this).css("width", '0');
+                  // $(this).css("height", '0');
                   $(this).detach().appendTo("#gridSquare");
                   
                 },
@@ -45,6 +44,7 @@
                     ui.position.top = offsetHeight;
                   }
 
+                  
                 },
                 stop:function(){
                     const parent = $('#gridSquare');
@@ -56,34 +56,11 @@
                     
                 },
           });
-          $( ".dragBox" ).draggable({ 
-            containment: $("#gridContainer"),  
-
-            stop:function(){
-                const parent = $('#gridSquare');
-                
-                var x = 100 * (parseFloat($(this).position().left) / parseFloat(parent.width())) + "%";
-                var y = 100 * (parseFloat($(this).position().top) / parseFloat(parent.height())) + "%";
-                $(this).css("left", x);
-                $(this).css("top", y);
-                
-            },
-          });
         }
 
         $(function() {
           createDraggables();
-            
-        
-          // $( "#gridSquare" ).droppable({ 
-          //   drop:function(event, ui) {
-          //     var $dropElemClone = ui.draggable.clone();
-          //     $dropElemClone.appendTo(this).removeClass('dragList').addclass('dragBox')
-
-              
-          //   }
-          // });
-      });
+        });
 
       
 
@@ -118,7 +95,7 @@
 
     <div id="gridSquare" class='gridSection'>
 
-      <div id='gridContainer' class='gridContainer'></div>
+      <!-- <div id='gridContainer' class='gridContainer'></div> -->
 
     </div>
 

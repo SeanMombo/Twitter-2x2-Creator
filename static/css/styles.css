@@ -23,12 +23,9 @@
     height:64px;
 }
 
-
 .mainContentSection{
     display:inline;
 }
-
-
 
 .gridSection{
     position:relative; 
@@ -42,6 +39,7 @@
     display:block;
     padding-top:100%;
 }
+
 .gridContainer{
     position: absolute;
     top: 0;
@@ -67,10 +65,36 @@
     height:64px;
     z-index: 999; 
 }
+.dragList:hover{
+    cursor:pointer;
+}
 
 .dragBox{
     position:absolute;
     width:0;
     height:0;
     z-index: 999; 
+}
+
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 10vw 30vw 10vw;
+    grid-gap: 1em;
+}
+
+main {
+    grid-column: 1 / span 3;
+}
+  
+aside {
+    grid-column: span 2;
+}
+  
+@media (max-width: 700px) {
+    main,
+    aside {
+        grid-column: 1 / span 5;
+    }
 }
