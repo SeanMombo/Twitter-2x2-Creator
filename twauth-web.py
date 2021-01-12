@@ -81,7 +81,7 @@ def grid():
         screen_name = 'captain_mrs'
         q_str = 'to:' + screen_name + ' conversation_id:' + tweet_id
 
-        _max_queries = 10
+        _max_queries = 5
         n = 3000
         ct = 1
 
@@ -114,7 +114,7 @@ def grid():
                 pfp_urls.append(t['user']['profile_image_url_https'])
                 lis.append(cur_id)
 
-        print(screen_names)
+        # print(screen_names)
 
         with open('./static/names.txt') as f:
             names = f.read().splitlines()
@@ -123,7 +123,7 @@ def grid():
         for n in names:
             if n in screen_names:
                 count+=1
-        print(count, len(names))
+        # print(count, len(names))
         return render_template('grid.html', pfp_urls=pfp_urls, access_token_url=access_token_url) 
 
     return render_template('grid.html', data=[], access_token_url=access_token_url)

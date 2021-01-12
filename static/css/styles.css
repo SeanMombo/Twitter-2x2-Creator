@@ -1,3 +1,7 @@
+html, body{
+    width:auto;
+}
+
 .tableContainer {
     display:table;
 }
@@ -16,11 +20,28 @@
     height:calc(100% - 48px);
 }
 
+.gameContainer {
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;  
+    flex-direction: row;
+    
+    justify-content: space-around;
+}
 .pfpBox {
     display:flex;
     flex-wrap:wrap;
-    /* width:500px; */
-    height:64px;
+    align-content: flex-start;
+}
+
+.rightSide{
+    display:flex;
+    justify-content: center;
+    overflow-y: scroll;
+    max-height:700px;
+    max-width:401px;
 }
 
 .mainContentSection{
@@ -29,15 +50,20 @@
 
 .gridSection{
     position:relative; 
-    background-size:cover; 
-    background-image: url('../img/grid.png');
-    width:100%;
-    max-width:800px;
+    /* background-size:cover; 
+    background-image: url('../img/grid.png'); */
+    width:700px;
+    max-width:700px;
+    max-height:700px;
+    min-width:700px;
+    min-height:700px;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 .gridSection::after{
     content:'';
     display:block;
-    padding-top:100%;
+    /* padding-top:100%; */
 }
 
 .gridContainer{
@@ -50,8 +76,11 @@
 }
 
 .gridImage{
-    width:64px; 
-    height:64px;
+    width:48px; 
+    height:48px;
+}
+
+.offsetImage {
     -webkit-transform:  translate(-50%, -50%);
     -moz-transform:     translate(-50%, -50%);
     -ms-transform:      translate(-50%, -50%);
@@ -61,8 +90,8 @@
 
 .dragList{
     position:relative;
-    width:64px;
-    height:64px;
+    width:48px;
+    height:48px;
     z-index: 999; 
 }
 .dragList:hover{
@@ -76,25 +105,29 @@
     z-index: 999; 
 }
 
+@media screen and (max-width: 600px) {
 
-.gridContainer {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 10vw 30vw 10vw;
-    grid-gap: 1em;
-}
+    .bodyContainer{
+        margin:8px;
+    }
 
-main {
-    grid-column: 1 / span 3;
-}
-  
-aside {
-    grid-column: span 2;
-}
-  
-@media (max-width: 700px) {
-    main,
-    aside {
-        grid-column: 1 / span 5;
+    .gameContainer{
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    .gridSection{
+        width:unset;
+        max-width:unset;
+        max-height:unset;
+        min-width:unset;
+        min-height:unset;
+        flex-shrink: 1;
+        flex-grow: 1;
+    }
+    .gridSection::after{
+        content:'';
+        display:block;
+        padding-top:0;
     }
 }

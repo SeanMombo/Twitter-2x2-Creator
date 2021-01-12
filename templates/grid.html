@@ -6,25 +6,132 @@
         url_for('static', filename='jquery-3.5.1.min.js') }}"></script>
     <script type=text/javascript src="{{
         url_for('static', filename='jquery-ui.js') }}"></script>
-
+    <script type=text/javascript src="{{
+            url_for('static', filename='jquery-touch.js') }}"></script>
     <script type=text/javascript src="{{
             url_for('static', filename='html2canvas.js') }}"></script>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <script>
-        $(function() {
-            // $(".pfp").draggable();
-            $( "#pfpBox div" ).draggable({ 
-                stack: "#pfpBox div",
-                start: function() {
-                    element = $(this);
+        
+        const gridWidth = 700; 
+        const imageWidth = 48;
+
+        function createDraggables() {
+            $( ".dragList" ).draggable({ 
+                cursorAt: { top: 24, left: 24 },
+                helper: "clone",
+                revert: "invalid",
+                scroll: false,
+                start:function(event, ui){
+                    
                 },
-                drag: function() {
-                    ImmagineDrag.css({
-                        'top': '0',
-                        'left': '0'
-                    });
+                drag:function(event, ui){
+                    const parent = $("#gridSquare");
+                    const imageWidth = $(this).children().width()/2;
+                    const imageHeight = $(this).children().height()/2;
+                    
+                    if ($(this).hasClass('onGrid')) {
+                        let left = ui.position.left,
+                            offsetWidth = (imageWidth - parent.width()) * -1;
+                        if (left < imageWidth) {
+                            ui.position.left = imageWidth;
+                        }
+                        if (left > offsetWidth) {
+                            ui.position.left = offsetWidth;
+                        }
+    
+                        let top = ui.position.top,
+                            offsetHeight = (imageHeight - parent.height()) * -1;
+                        if (top < imageWidth) {
+                            ui.position.top = imageHeight;
+                        }
+                        if (top > offsetHeight) {
+                            ui.position.top = offsetHeight;
+                        }
+                     }
                 },
-            
+                stop:function(event, ui){
+                    if ($(this).hasClass('onGrid')) {
+                        const parent = $('#gridSquare');
+                    
+                        var x = 100 * (parseFloat($(this).position().left) / parseFloat(parent.width())) + "%";
+                        var y = 100 * (parseFloat($(this).position().top) / parseFloat(parent.height())) + "%";
+                        $(this).css("left", x);
+                        $(this).css("top", y);
+                        
+                        // $(this).removeClass('dragList').addClass('dragGrid');
+                    }
+
+                    resizeImages();
+                    
+                },
             });
+           
+            
+            // Let the trash be droppable, accepting the gallery items
+            $('#gridSquare').droppable({
+                accept: "#pfpBox > div",
+                tolerance:'fit',
+                drop:function(event, ui) {
+                    $(ui.draggable).addClass('onGrid');
+                    $(ui.draggable).detach().appendTo("#gridSquare");
+                    $(ui.draggable).draggable( "option", "helper", "original" );
+                    $(ui.draggable).draggable( "option", "revert", false );
+                    $(ui.draggable).draggable( "option", "cursorAt", false );
+                    
+                    const parent = $('#gridSquare');
+                    var x = event.pageX - parent.offset().left; 
+                    var y = event.pageY - parent.offset().top;
+                    // $(this).css("top", '0');
+                    // $(this).css("left", '0');
+                    $(ui.draggable).css('left', x);
+                    $(ui.draggable).css('top', y);
+                    $(ui.draggable).css('width', '0');
+                    $(ui.draggable).css('height', '0');
+                    $(ui.draggable).css("position", 'absolute');
+                    $(ui.draggable).children().addClass('offsetImage');
+                    $(ui.draggable).removeClass('dragList');
+                }
+            });
+        }
+    
+        $(function() {
+            createDraggables();
+            resizeImages();
+            updateDraggables();
+        });
+
+        
+        function resizeImages() {
+            const parent=$('#gridSquare');
+            let scale = parseFloat(parent.width()) / gridWidth;
+            let profileDimensions = scale * imageWidth;
+            let gridOffset = scale * imageWidth/2;
+            $( ".dragList" ).css({
+                "width": profileDimensions,
+                "height": profileDimensions,
+            })
+            $( ".gridImage" ).css({
+                "width": profileDimensions,
+                "height": profileDimensions,
+            })
+            $( "#gridContainer" ).css({
+                "padding": gridOffset,
+            })
+        }
+
+        function updateDraggables() {
+            const parent = $('#gridSquare');
+            let scale = parseFloat(parent.width()) / gridWidth;
+            let mouseOffset = scale * imageWidth/2;
+            $('.dragList').draggable( "option", "cursorAt", { top: mouseOffset, left: mouseOffset });
+            $('.onGrid').draggable( "option", "cursorAt", false);
+            
+        }
+
+        $( window ).resize(function() {
+            resizeImages();
+            updateDraggables()
         });
 
     </script>
@@ -41,43 +148,23 @@
         <input type='button' id='but_screenshot' value='Take screenshot' onclick='screenshot();'>
     </header>
 
-   
     <div class='gameContainer'>
-        <aside>
-            
-        </aside>
-        <main>
-
-        </main>
-
+        <div id="gridSquare" class='gridSection'>
+            <img src='../static/img/grid.png' width='100%' height='100%'> 
+        </div>
+        <div class='rightSide'>
+            <div id='pfpBox' class='pfpBox'>
+                {% for pfp_url in pfp_urls %}
+                {% set rowloop = loop %}
+                    <div id={{ rowloop.index }} class="dragList">
+                        <image class='gridImage' src={{ pfp_url }}></image>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
     </div>
 
-
-
-        <!-- <div class="row">
-
-            <div class="col-md-4 userSection">
-                <div id='pfpBox' class='pfpBox'>
-                    {% for pfp_url in pfp_urls %}
-                        <div class='pfp'>
-                            <image id="draggable" src={{ pfp_url }}></image>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="col-md-8">
-                <div class="gridSection">
-                    <image src={{ url_for('static', filename='img/grid.png') }} class='gridImage'> </image>
-                </div>
-            </div>
-        </div> -->
-        
-
-        
-
-    <!-- <div id='centerContainer' class='centerContainer'></div>
-    </div> -->
 
     <!-- Script -->
     <script type='text/javascript'>
