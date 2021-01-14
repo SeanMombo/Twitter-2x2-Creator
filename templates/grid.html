@@ -10,15 +10,15 @@
             url_for('static', filename='jquery-touch.js') }}"></script>
     <script type=text/javascript src="{{
             url_for('static', filename='html2canvas.js') }}"></script>
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        
     <script>
         
         const gridWidth = 700; 
-        const imageWidth = 48;
+        const imageWidth = 64;
 
         function createDraggables() {
             $( ".dragList" ).draggable({ 
-                cursorAt: { top: 24, left: 24 },
+                cursorAt: { top: 64, left: 64 },
                 helper: "clone",
                 revert: "invalid",
                 scroll: false,
@@ -58,12 +58,8 @@
                         var y = 100 * (parseFloat($(this).position().top) / parseFloat(parent.height())) + "%";
                         $(this).css("left", x);
                         $(this).css("top", y);
-                        
-                        // $(this).removeClass('dragList').addClass('dragGrid');
                     }
-
-                    resizeImages();
-                    
+                    resizeImages(); 
                 },
             });
            
@@ -139,19 +135,37 @@
 
 {% block containercontent %}
     <header class="header">
-        <form class="example" method="post" action="" 
+        <!-- <form class="example" method="post" action="" 
             style="margin:auto;max-width:600px">
             <input type="text" placeholder="Search by tweet" name="book">
             <button type="submit">Submit<i class="fa fa-search"></i>
             </button>
         </form>
-        <input type='button' id='but_screenshot' value='Take screenshot' onclick='screenshot();'>
+        <input type='button' id='but_screenshot' value='Take screenshot' onclick='screenshot();'> -->
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.thread_url.label }}<br>
+                {{ form.thread_url(size=32) }}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
+
+
+
     </header>
 
     <div class='gameContainer'>
         <div id="gridSquare" class='gridSection'>
+            <!-- <h2 class='titleTop noselect'>ADHD</h2>
+            <h2 class='titleBottom noselect'>SINGLE MINDED</h2>
+            <h2 class='titleLeft noselect'>NEET</h2>
+            <h2 class='titleRight noselect'>SOCIAL</h2> -->
+
+
             <img src='../static/img/grid.png' width='100%' height='100%'> 
         </div>
+
         <div class='rightSide'>
             <div id='pfpBox' class='pfpBox'>
                 {% for pfp_url in pfp_urls %}
