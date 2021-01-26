@@ -75,78 +75,81 @@ def callback():
 
 @app.route('/grid', methods=['GET', 'POST'])
 def grid():
-    # captain_mrs 2x2 thread
-    # https://twitter.com/captain_mrs/status/1346473885789655041?s=20
+    # # captain_mrs 2x2 thread
+    # # https://twitter.com/captain_mrs/status/1346473885789655041?s=20
     
-    form = searchTweetForm();
-    if request.method == 'POST' and form.validate_on_submit():
-        print(form.thread_url.data)
-        token, token_secret = session['token']
-        auth = tweepy.OAuthHandler(app.config['APP_CONSUMER_KEY'], app.config['APP_CONSUMER_SECRET'], app.config['CALLBACK'])
-        auth.set_access_token(token, token_secret)
-        api = tweepy.API(auth, parser=tweepy.parsers.JSONParser(), wait_on_rate_limit=True)
-        # api = tweepy.API(auth, wait_on_rate_limit_notify=True)
+    # form = searchTweetForm();
+    # if request.method == 'POST' and form.validate_on_submit():
+    #     print(form.thread_url.data)
+    #     token, token_secret = session['token']
+    #     auth = tweepy.OAuthHandler(app.config['APP_CONSUMER_KEY'], app.config['APP_CONSUMER_SECRET'], app.config['CALLBACK'])
+    #     auth.set_access_token(token, token_secret)
+    #     api = tweepy.API(auth, parser=tweepy.parsers.JSONParser(), wait_on_rate_limit=True)
+    #     # api = tweepy.API(auth, wait_on_rate_limit_notify=True)
 
-        tweet_url = 'https://twitter.com/eigenrobot/status/1349276374113034242'
-        tweet_url = form.thread_url.data
-        tweet_id = tweet_url.split('/')[-1].split('?')[0]
-        screen_name = tweet_url.split('/')[-3]
-        q_str = 'to:' + screen_name + ' conversation_id:' + tweet_id
+    #     tweet_url = 'https://twitter.com/eigenrobot/status/1349276374113034242'
+    #     tweet_url = form.thread_url.data
+    #     tweet_id = tweet_url.split('/')[-1].split('?')[0]
+    #     screen_name = tweet_url.split('/')[-3]
+    #     q_str = 'to:' + screen_name + ' conversation_id:' + tweet_id
 
-        _max_queries = 5
-        n = 500
-        ct = 1
+    #     _max_queries = 5
+    #     n = 500
+    #     ct = 1
 
-        tweets = tweet_batch = api.search(q=q_str, since_id=tweet_id, count=n, result_type='mixed', include_entities=True)['statuses']
+    #     tweets = tweet_batch = api.search(q=q_str, since_id=tweet_id, count=n, result_type='mixed', include_entities=True)['statuses']
 
-        #batch the search requests to get around 100 limit
-        while len(tweets) < n and ct < _max_queries:
-            max_id = 9999999999999999999
-            #get smallest id from returned tweets 
-            for a in tweet_batch:
-                if a['id'] < max_id:
-                    max_id = a['id']
+    #     #batch the search requests to get around 100 limit
+    #     while len(tweets) < n and ct < _max_queries:
+    #         max_id = 9999999999999999999
+    #         #get smallest id from returned tweets 
+    #         for a in tweet_batch:
+    #             if a['id'] < max_id:
+    #                 max_id = a['id']
 
-            tweet_batch = api.search(q=q_str, since_id=tweet_id, count=n - len(tweets), result_type='mixed', include_entities=True, max_id=max_id)['statuses']   
-            tweets.extend(tweet_batch)
-            ct += 1
+    #         tweet_batch = api.search(q=q_str, since_id=tweet_id, count=n - len(tweets), result_type='mixed', include_entities=True, max_id=max_id)['statuses']   
+    #         tweets.extend(tweet_batch)
+    #         ct += 1
 
 
-        lis = []
-        screen_names = []
-        pfp_urls = []
-        for t in tweets:
-            reply_id = t['in_reply_to_status_id_str']
-            cur_id = t['user']['id']
-            if reply_id == tweet_id and cur_id not in lis:
-                screen_names.append(t['user']['screen_name'])
+    #     lis = []
+    #     screen_names = []
+    #     pfp_urls = []
+    #     for t in tweets:
+    #         reply_id = t['in_reply_to_status_id_str']
+    #         cur_id = t['user']['id']
+    #         if reply_id == tweet_id and cur_id not in lis:
+    #             screen_names.append(t['user']['screen_name'])
                 
-                pfpImg = t['user']['profile_image_url_https'];
-                imgType = pfpImg[-4:]
-                pfpImg2 = pfpImg[:-11]
-                pfpImg2 += imgType
-                print(pfpImg2)
-                pfp_urls.append(pfpImg2)
-                lis.append(cur_id)
+    #             pfpImg = t['user']['profile_image_url_https'];
+    #             imgType = pfpImg[-4:]
+    #             pfpImg2 = pfpImg[:-11]
+    #             pfpImg2 += imgType
+    #             print(pfpImg2)
+    #             pfp_urls.append(pfpImg2)
+    #             lis.append(cur_id)
+    form = searchTweetForm();
+    screen_names = []
+    pfp_urls = []
+    for i in range(50):
+        screen_names.append('seanmombo');
+        pfp_urls.append('https://pbs.twimg.com/profile_images/1343923119791239169/JXx5YF6I.png')
 
-        # for i in range(50):
-        #     screen_names.append('seanmombo');
-        #     pfp_urls.append('https://pbs.twimg.com/profile_images/1343923119791239169/JXx5YF6I.png')
+
+    # print(screen_names)
+    # with open('./static/names.txt') as f:
+    #     names = f.read().splitlines()
+
+    # count = 0;
+    # for n in names:
+    #     if n in screen_names:
+    #         count+=1
+    # print(count, len(names))
+
+    return render_template('grid.html', pfp_urls=pfp_urls, form=form, access_token_url=access_token_url) 
 
 
-        # print(screen_names)
-        # with open('./static/names.txt') as f:
-        #     names = f.read().splitlines()
-
-        # count = 0;
-        # for n in names:
-        #     if n in screen_names:
-        #         count+=1
-        # print(count, len(names))
-
-        return render_template('grid.html', pfp_urls=pfp_urls, form=form, access_token_url=access_token_url) 
-
-    return render_template('grid.html', data=[], form=form, access_token_url=access_token_url)
+    # return render_template('grid.html', data=[], form=form, access_token_url=access_token_url)
 
 
 @app.errorhandler(500)

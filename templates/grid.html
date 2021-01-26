@@ -125,6 +125,33 @@
             
         }
 
+        function adjustSideHeader() {
+            let left = $('h2.titleLeft');
+            let right = $('h2.titleRight');
+
+            //check if the headline is visible
+            if(left.length > 0) {
+                //add style tag to support media queries
+                $('.titleLeftDiv').css({
+                    "margin-top": `${left.textWidth()*-0.5 - 18}px`,
+                })
+            }   
+            if(right.length > 0) {
+                //add style tag to support media queries
+                $('.titleRightDiv').css({
+                    "margin-top": `${right.textWidth()*-0.5 - 18}px`,
+                })
+            }  
+        }
+
+        // fire it when document is loaded
+        $(document).ready(setTimeout(adjustSideHeader, 0));
+        $.fn.textWidth = function(text, font) {
+            if (!$.fn.textWidth.fakeEl) $.fn.textWidth.fakeEl = $('<span>').hide().appendTo(document.body);
+            $.fn.textWidth.fakeEl.text(text || this.val() || this.text()).css('font', font || this.css('font'));
+            return $.fn.textWidth.fakeEl.width();
+        };
+
         $( window ).resize(function() {
             resizeImages();
             updateDraggables()
@@ -157,10 +184,16 @@
 
     <div class='gameContainer'>
         <div id="gridSquare" class='gridSection'>
-            <!-- <h2 class='titleTop noselect'>ADHD</h2>
+            <h2 class='titleTop noselect'>ADHD</h2>
             <h2 class='titleBottom noselect'>SINGLE MINDED</h2>
-            <h2 class='titleLeft noselect'>NEET</h2>
-            <h2 class='titleRight noselect'>SOCIAL</h2> -->
+            <div class="titleLeftDiv">
+                <h2 class='titleLeft noselect'>NEET</h2>
+            </div>
+            
+            <div class="titleRightDiv">
+                <h2 class='titleRight noselect'>SOCCCCCC</h2>
+            </div>
+            
 
 
             <img src='../static/img/grid.png' width='100%' height='100%'> 
